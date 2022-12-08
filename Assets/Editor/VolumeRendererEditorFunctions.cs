@@ -193,40 +193,39 @@ namespace UnityVolumeRendering
             if (Directory.Exists(dir))
             {
                 List<string> filePaths = Directory.GetFiles(dir).ToList();
-                IImageSequenceImporter importer = ImporterFactory.CreateImageSequenceImporter(ImageSequenceFormat.ImageSequence);
 
-                IEnumerable<IImageSequenceSeries> seriesList = importer.LoadSeries(filePaths);
+                int size = (int)filePaths.Count;
 
-                int size = 512;
+                //Debug size of texture3D
+                Debug.Log("size " + size);
+
                 Texture3D texture3D = new Texture3D(size, size, size, TextureFormat.RGBA32, false);
-                texture3D.wrapMode = TextureWrapMode.Clamp;
+                Color32[] colors3D = new Color32[size * size * size];
 
-                //set texture from dataset
+                //create colors3D from texture2D from filePaths
                 int i = 0;
-                foreach (IImageSequenceSeries series in seriesList)
+
+                foreach (string filePath in filePaths)
                 {
-                    VolumeDataset dataset = importer.ImportSeries(series);
-
-                    Color32[] colors  = dataset.GetDataTexture().GetPixels32();
-                    
-                    colors = colors.Select(c => {
-                        if (c.r == 0 && c.g == 0 && c.b == 0)
-                        {
-                            c.a = 0;
-                        }
-                        else
-                        {
-                            c.a = (byte)((c.r + c.g + c.b) / 3);
-                        }
-                        return c;
-                    }).ToArray();
-
-                    texture3D.SetPixels32(colors, i);                    
-                    i++;
+                    //import texture alpha from filepath
+                    Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
+                    texture.wrapMode = TextureWrapMode.Clamp;
+                    texture.LoadImage(File.ReadAllBytes(filePath));
+                    Color32[] colors = texture.GetPixels32();
+                    //debug alpha value
+                    Debug.Log("alpha " + colors[0].a);
+                    //set colors3D from colors
+                    for (int j = 0; j < colors.Length; j++)
+                    {
+                        colors3D[i] = colors[j];
+                        i++;
+                    }
                 }
+                //set texture3D from colors3D
+                texture3D.SetPixels32(colors3D);
                 texture3D.Apply();
                 //save texture
-                AssetDatabase.CreateAsset(texture3D, "Assets/VolumeRendering3D"+ DateTime.Now.ToString("yyyyMMddHHmmss") + ".asset");
+                AssetDatabase.CreateAsset(texture3D, "Assets/Vol/VolumeRendering3D" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".asset");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
