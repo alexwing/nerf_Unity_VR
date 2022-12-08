@@ -19,6 +19,11 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 		[Header(Rendering)]
 		_Volume("Volume", 3D) = "" {}
 		_Iteration("Iteration", Int) = 10
+		//rgb alpha bool
+		[MaterialToggle] _rgbAlpha("rgbAlpha", Float) = 0
+		[MaterialToggle] _cutoff ("cutoff", Float) = 0
+		_alphaTransition("Alpha Transition", Range(0, 1)) = 0.5
+
 		_AlphaCutoff("Alpha Cutoff", Range(0, 1)) = 0.5
 		[MaterialToggle] _Dissolve("Dissolve", Float) = 0
 		[MaterialToggle] _Normalized("Normalized", Float) = 0
@@ -65,6 +70,9 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 			sampler3D _Volume;
 			int _Iteration;
 			float _AlphaCutoff;
+			float _cutoff;
+			float _alphaTransition;
+			float _rgbAlpha;
 			fixed _MinX, _MaxX, _MinY, _MaxY, _MinZ, _MaxZ;
 			fixed _Dissolve;
 			fixed _Normalized;
@@ -77,11 +85,34 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 				fixed z = step(pos.z, _MaxZ) * step(_MinZ, pos.z);
 				return tex3D(_Volume, pos) * x * y * z;
 */				
+
+
 				//simpler version
 				if (pos.x < _MinX || pos.x > _MaxX || pos.y < _MinY || pos.y > _MaxY || pos.z < _MinZ || pos.z > _MaxZ)
 					return float4(0, 0, 0, 0);
-				if (tex3D(_Volume, pos).a < _AlphaCutoff)
-					return float4(0, 0, 0, 0);
+
+				if (_cutoff){
+					if (_rgbAlpha) {
+						//rgb / 3 = alpha
+							float alpha = (tex3D(_Volume, pos).r + tex3D(_Volume, pos).g + tex3D(_Volume, pos).b) / 3;
+						if (alpha < _AlphaCutoff){
+							// rgb alpha transistion from alpha color to alpha
+							float alpha = _alphaTransition * 0 + (1 - _alphaTransition) * tex3D(_Volume, pos).a;
+							return float4(tex3D(_Volume, pos).rgb, alpha);
+						}
+						
+				
+					}else{
+							//if _alphaTransition > 0  = alpha = 0, else alpha transition =  1 - _alphaTransition
+							float alpha = _alphaTransition * 0 + (1 - _alphaTransition) * tex3D(_Volume, pos).a;
+							if (alpha < _AlphaCutoff){
+							return float4(tex3D(_Volume, pos).rgb, alpha);					
+
+							//return float4(0, 0, 0, 0);
+						}
+
+					}
+				}
 				return  tex3D(_Volume, pos);
 			}
 
