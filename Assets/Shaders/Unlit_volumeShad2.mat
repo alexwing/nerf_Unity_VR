@@ -51,7 +51,7 @@ Material:
     m_Floats:
     - Vector1_C4EF7DB6: 30
     - Vector1_D32E39A6: 0.02
-    - _AlphaCutoff: 0.048
+    - _AlphaCutoff: 0.238
     - _Dissolve: 0
     - _Intensity: 0.077
     - _Iteration: 400
@@ -64,9 +64,9 @@ Material:
     - _MinX: 0
     - _MinY: 0
     - _MinZ: 0
-    - _Normalized: 1
-    - _alphaTransition: 0.877
-    - _cutoff: 0
+    - _Normalized: 0
+    - _alphaTransition: 0.073
+    - _cutoff: 1
     - _rgbAlpha: 0
     - _rgbAlphaToAlphaCutoff: 0
     m_Colors:

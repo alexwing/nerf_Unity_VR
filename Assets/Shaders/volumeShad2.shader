@@ -94,22 +94,21 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 				if (_cutoff){
 					if (_rgbAlpha) {
 						//rgb / 3 = alpha
-							float alpha = (tex3D(_Volume, pos).r + tex3D(_Volume, pos).g + tex3D(_Volume, pos).b) / 3;
-						if (alpha < _AlphaCutoff){
-							// rgb alpha transistion from alpha color to alpha
-							float alpha = _alphaTransition * 0 + (1 - _alphaTransition) * tex3D(_Volume, pos).a;
-							return float4(tex3D(_Volume, pos).rgb, alpha);
-						}
-						
-				
+							//evaluate bigger rgb value
+							float alpha = max(max(tex3D(_Volume, pos).r, tex3D(_Volume, pos).g), tex3D(_Volume, pos).b);
+							if (alpha > _AlphaCutoff){
+								return float4(tex3D(_Volume, pos).rgb, alpha);
+							} else {
+								return float4(tex3D(_Volume, pos).rgb, alpha* _alphaTransition);
+							}				
 					}else{
 							//if _alphaTransition > 0  = alpha = 0, else alpha transition =  1 - _alphaTransition
-							float alpha = _alphaTransition * 0 + (1 - _alphaTransition) * tex3D(_Volume, pos).a;
-							if (alpha < _AlphaCutoff){
-							return float4(tex3D(_Volume, pos).rgb, alpha);					
-
-							//return float4(0, 0, 0, 0);
-						}
+							float alpha = tex3D(_Volume, pos).a;
+							if (alpha > _AlphaCutoff){
+								return float4(tex3D(_Volume, pos).rgb, alpha);
+							} else {
+								return float4(tex3D(_Volume, pos).rgb, alpha* _alphaTransition);
+							}	
 
 					}
 				}
