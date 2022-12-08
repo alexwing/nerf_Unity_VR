@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
-using UnityEditor.Experimental.AssetImporters;
 
-[ScriptedImporter(1, "vol")]
-public class LoadVolume : ScriptedImporter
+
+[UnityEditor.AssetImporters.ScriptedImporter(1, "vol")]
+public class LoadVolume : UnityEditor.AssetImporters.ScriptedImporter
 {
     public int size=512;
     // Start is called before the first frame update
@@ -34,7 +34,7 @@ public class LoadVolume : ScriptedImporter
         return tex;
     }
 
-    public override void OnImportAsset(AssetImportContext ctx)
+    public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
     {
         try
         {

@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/VolumeRender.unity
+    path: Assets/Vol/VolumeRender.unity
     guid: 6fee02937ea849a439f17f363777b24b
   - enabled: 0
     path: Assets/Scenes/MeshRender.unity
@@ -14,4 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MixedReality.unity
     guid: 4b58e4d7882a3144b88ad8c1c0d70e0d
-  m_configObjects: {}
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: a6fa8f4b005510649ae2e826846e850b,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 3aef9631355fe0b479ac6bccf2816e0e,
+      type: 2}

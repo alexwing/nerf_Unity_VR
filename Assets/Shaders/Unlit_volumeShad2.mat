@@ -19,11 +19,23 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DataTex:
+        m_Texture: {fileID: 11700000, guid: ee0574a8da4e57e4dbb1d6e0468c8e17, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 8316c649b12f4485c811d707f6316577, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TFTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -32,10 +44,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Volume:
-        m_Texture: {fileID: 4849145913767034428, guid: 100b1def401e91547b8e2875718b6c23,
-          type: 3}
+        m_Texture: {fileID: 11700000, guid: bf301f0969c7a3444af0fe6306481684, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_C4EF7DB6: 30
     - Vector1_D32E39A6: 0.02
@@ -43,12 +55,16 @@ Material:
     - _Intensity: 0.077
     - _Iteration: 500
     - _Level: 0
-    - _MaxX: 0.995
+    - _MaxVal: 1
+    - _MaxX: 1
     - _MaxY: 1
     - _MaxZ: 1
+    - _MinVal: 0.09
     - _MinX: 0
     - _MinY: 0
     - _MinZ: 0
+    - _Normalized: 1
     m_Colors:
     - Color_FFB485C4: {r: 0, g: 13.67843, b: 16, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
