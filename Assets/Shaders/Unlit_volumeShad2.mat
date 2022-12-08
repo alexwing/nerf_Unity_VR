@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Volume:
-        m_Texture: {fileID: 11700000, guid: 8f9e12f39e0a01d43bce59f0ea4c52c6, type: 2}
+        m_Texture: {fileID: 11700000, guid: b171a17335e181c43a9f05fa841b3191, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -57,7 +57,7 @@ Material:
     - _Level: 0
     - _MaxVal: 1
     - _MaxX: 1
-    - _MaxY: 0.77
+    - _MaxY: 1
     - _MaxZ: 1
     - _MinVal: 0.09
     - _MinX: 0

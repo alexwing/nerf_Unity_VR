@@ -19,6 +19,7 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 		[Header(Rendering)]
 		_Volume("Volume", 3D) = "" {}
 		_Iteration("Iteration", Int) = 10
+		_AlphaCutoff("Alpha Cutoff", Range(0, 1)) = 0.5
 		[MaterialToggle] _Dissolve("Dissolve", Float) = 0
 		[MaterialToggle] _Normalized("Normalized", Float) = 0
 
@@ -63,9 +64,11 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 
 			sampler3D _Volume;
 			int _Iteration;
+			float _AlphaCutoff;
 			fixed _MinX, _MaxX, _MinY, _MaxY, _MinZ, _MaxZ;
 			fixed _Dissolve;
 			fixed _Normalized;
+			
 
 			float4 sample(float3 pos) // clip the volume
 			{
@@ -76,6 +79,8 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 */				
 				//simpler version
 				if (pos.x < _MinX || pos.x > _MaxX || pos.y < _MinY || pos.y > _MaxY || pos.z < _MinZ || pos.z > _MaxZ)
+					return float4(0, 0, 0, 0);
+				if (tex3D(_Volume, pos).a < _AlphaCutoff)
 					return float4(0, 0, 0, 0);
 				return  tex3D(_Volume, pos);
 			}

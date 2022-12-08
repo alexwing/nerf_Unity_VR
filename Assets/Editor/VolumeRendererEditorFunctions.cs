@@ -200,6 +200,9 @@ namespace UnityVolumeRendering
                 Debug.Log("size " + size);
 
                 Texture3D texture3D = new Texture3D(size, size, size, TextureFormat.RGBA32, false);
+                texture3D.wrapMode = TextureWrapMode.Clamp;
+                //filter mode
+               // texture3D.filterMode = FilterMode.Point;
                 Color32[] colors3D = new Color32[size * size * size];
 
                 //create colors3D from texture2D from filePaths
@@ -210,8 +213,29 @@ namespace UnityVolumeRendering
                     //import texture alpha from filepath
                     Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
                     texture.wrapMode = TextureWrapMode.Clamp;
+                    //texture.filterMode = FilterMode.Point;
                     texture.LoadImage(File.ReadAllBytes(filePath));
                     Color32[] colors = texture.GetPixels32();
+
+/*
+                    //alpha cut off
+                    for (int j = 0; j < colors.Length; j++)
+                    {
+                        if (colors[j].a < 100)
+                        {
+                            colors[j].a = 0;
+                        }
+                    }
+*/
+/*
+                    //Fix alpha value is rgb value / 3
+                    for (int j = 0; j < colors.Length; j++)
+                    {
+                        colors[j].a = (byte)((colors[j].r + colors[j].g + colors[j].b) / 3);
+                    }
+
+*/
+
                     //debug alpha value
                     Debug.Log("alpha " + colors[0].a);
                     //set colors3D from colors
