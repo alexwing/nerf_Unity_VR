@@ -1,17 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rendering/blob/master/Assets/VolumeRendering/Shaders/VolumeRendering.cginc
 {
 	Properties
@@ -79,15 +65,7 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 			
 
 			float4 sample(float3 pos) // clip the volume
-			{
-				/*fixed x = step(pos.x, _MaxX) * step(_MinX, pos.x);
-				fixed y = step(pos.y, _MaxY) * step(_MinY, pos.y);
-				fixed z = step(pos.z, _MaxZ) * step(_MinZ, pos.z);
-				return tex3D(_Volume, pos) * x * y * z;
-*/				
-
-
-				//simpler version
+			{			
 				if (pos.x < _MinX || pos.x > _MaxX || pos.y < _MinY || pos.y > _MaxY || pos.z < _MinZ || pos.z > _MaxZ)
 					return float4(0, 0, 0, 0);
 
@@ -95,7 +73,8 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 					if (_rgbAlpha) {
 						//rgb / 3 = alpha
 							//evaluate bigger rgb value
-							float alpha = max(max(tex3D(_Volume, pos).r, tex3D(_Volume, pos).g), tex3D(_Volume, pos).b);
+							float4 color = tex3D(_Volume, pos);
+							float alpha = max(max(color.r, color.g), color.b);							
 							if (alpha > _AlphaCutoff){
 								return float4(tex3D(_Volume, pos).rgb, alpha);
 							} else {
@@ -103,13 +82,13 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 							}				
 					}else{
 							//if _alphaTransition > 0  = alpha = 0, else alpha transition =  1 - _alphaTransition
-							float alpha = tex3D(_Volume, pos).a;
+							float4 color = tex3D(_Volume, pos);
+							float alpha = color.a;
 							if (alpha > _AlphaCutoff){
-								return float4(tex3D(_Volume, pos).rgb, alpha);
+								return float4(color.rgb, alpha);
 							} else {
-								return float4(tex3D(_Volume, pos).rgb, alpha* _alphaTransition);
+								return float4(color.rgb, alpha * _alphaTransition);
 							}	
-
 					}
 				}
 				return  tex3D(_Volume, pos);
@@ -149,11 +128,6 @@ Shader "Unlit/volumeShad2"  // ref https://github.com/mattatz/unity-volume-rende
 					// use back to front composition	
 					//simplified version			
 					finalColor = float4(color.a * color.rgb + (1-color.a) * finalColor.rgb, color.a + (1 - color.a) * finalColor.a);
-
-
-					//old version
-					//finalColor.rgb = color.a * color.rgb + (1-color.a) * finalColor.rgb;
-					//finalColor.a = color.a + (1 - color.a) * finalColor.a;
 					if (finalColor.a > 1) break;
 				}
 				return finalColor;

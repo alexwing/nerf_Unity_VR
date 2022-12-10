@@ -1,4 +1,42 @@
-# nerf_Unity
+# nerf_Unity for Oculus Quest 2
+
+This is a fork of [kwea123/nerf_Unity](
+
+## Changes
+
+- Added support for Oculus Quest 2
+- Changed the shader to use the new XRSystem
+- Create import to Nerf png sequence files
+  
+
+
+# Shaders
+
+## VolumeColorRenderingShader
+
+
+@references:
+    - https://github.com/mattatz/unity-volume-rendering/blob/master/Assets/VolumeRendering/Shaders/VolumeRendering.cginc
+    - https://kwea123.github.io/nerf_pl/
+
+
+This shader is a custom shader for rendering 3D volumes. It uses the raymarching technique to render the 3D volume. It's designed to be used with a 3D data texture that represents the volume, and it provides a number of adjustable properties to control how the volume is rendered.
+
+The main properties of this shader are:
+
+  - _Iteration: This controls the number of iterations that the raymarching algorithm will use to render the volume. More iterations will produce a higher-quality rendering, but will also be slower.
+  - _DataTex: This is the 3D data texture that represents the volume that will be rendered.
+  - _MinVal and _MaxVal: These properties control the minimum and maximum values that will be used to map the data in the 3D texture to colors in the final rendering.
+  - _alphaTransition: This property controls the transition between transparent and opaque regions of the volume.
+  - _alphaFactor: This property controls the overall transparency of the volume.
+  - _lighting: This property toggles the use of lighting in the rendering.
+
+The shader also includes a number of helper functions for performing common tasks related to volume rendering, such as finding intersections between rays and bounding boxes, and computing the 
+
+
+
+
+## Project Nerf_Unity origin and references
 
 ### :gem: [**Project page**](https://kwea123.github.io/nerf_pl/) (live demo!)
 
