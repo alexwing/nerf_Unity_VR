@@ -25,13 +25,27 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
 {
     Properties
     {
-        _Iteration("Iteration", Range(1, 1000)) = 10
+        _Iteration("Iterations", Range(1, 2000)) = 10
         _DataTex ("Data Texture (Generated)", 3D) = "" {}
+       
+        [Header(Ranges)]
+       
         _MinVal("Min val", Range(0.0, 1.0)) = 0.0
         _MaxVal("Max val", Range(0.0, 1.0)) = 1.0
+
+        [Header(Properties)]
+
         _alphaTransition("Alpha Transition", Range(0, 1)) = 0.5
         _alphaFactor("Alpha Factor", Range(0, 10)) = 1
-		[MaterialToggle] _lighting("Lighting", Float) = 0        
+        _lightFactor("Light Factor", Range(0.0, 10.0)) = 1
+        _deptFactor("Depth Factor", Range(0.0, 1.0)) = 0.15
+		[MaterialToggle] _lighting("Lighting", Float) = 0     
+
+        [Header(Noise)]
+        [MaterialToggle] _Noise("Activate Noise", Float) = 0
+        _NoiseTex("Noise Texture (Generated)", 2D) = "white" {}
+        _noiseFactor("Noise Factor", Range(0.0, 4.0)) = 2
+
     }
     SubShader
     {
@@ -72,13 +86,19 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
             };
 
             sampler3D _DataTex;
+            sampler2D _NoiseTex;
 
             float _MinVal;
             float _MaxVal;
             float _alphaTransition;
             float _alphaFactor;
+            float _lightFactor;
+            float _deptFactor;
+            float _noiseFactor;
+
             uniform int _lighting;
             uniform int _Iteration;
+            uniform int _Noise;
 
 
             struct RayInfo
@@ -231,8 +251,9 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
 
                 // Create a small random offset in order to remove artifacts
                 // spanish: crear un pequeño desplazamiento aleatorio para eliminar artefactos
-                // ray.startPos += (2.0f * ray.direction * raymarchInfo.stepSize) * tex2D(_NoiseTex, float2(i.uv.x, i.uv.y)).r;
-
+                if (_Noise){
+                 ray.startPos += (_noiseFactor * ray.direction * raymarchInfo.stepSize) * tex2D(_NoiseTex, float2(i.uv.x, i.uv.y)).r;
+                }
                 float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
                 float tDepth = raymarchInfo.numStepsRecip * (raymarchInfo.numSteps - 1);
                 [loop]
@@ -252,7 +273,7 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
                     if (_lighting){
                         color.rgb = calculateLighting(color.rgb, normalize(getGradient(currPos)), lightDir, -ray.direction, 0.3f);
                     }
-                    if (color.a > 0.15 && t < tDepth) {
+                    if (color.a > _deptFactor && t < tDepth) {
                         tDepth = t;
                     }
                     // Early ray termination
@@ -261,7 +282,9 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
                         break;
                     }
                     //reduce the alpha
-                    color = float4(color.rgb, color.a * _alphaFactor);
+                   // color = float4(color.r * _alphaFactor, color.g * _alphaFactor, color.b * /_alphaFactor, color.a * _alphaFactor);
+
+                    color  = float4(color.rgb * _lightFactor, color.a * _alphaFactor);
                     if (color.a > 1) break;
                 }
 
