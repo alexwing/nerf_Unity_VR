@@ -185,7 +185,7 @@ namespace UnityVolumeRendering
         }
 
 
-        [MenuItem("Volume Rendering/Load dataset/Load image sequence texture 3D")]
+        [MenuItem("Volume Rendering/Load dataset/Load image sequence texture 3D (Nerf Import)")]
         static void ShowSequenceImporter3DTexture()
         {
             string dir = EditorUtility.OpenFolderPanel("Select a folder to load", "", "");

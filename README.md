@@ -1,16 +1,35 @@
-# nerf_Unity for Oculus Quest 2
+# Nerf Unity for Oculus Quest 2
 
-This is a fork of [kwea123/nerf_Unity] 
+Nerf_Unity is a fork of the project  [kwea123/nerf_Unity](kwea123/nerf_Unity), which is a Unity implementation of nerf_pl, a neural rendering technique for creating photorealistic images. The fork adds support for the Oculus Quest 2 virtual reality headset and includes a new shader and tools for importing 3D volume data as png sequences. The project includes several different scenes that demonstrate different ways to use the neural rendering techniques, including rendering 3D mesh models and volumes. The project is built on Unity 2019.3.9f1 and requires assets to be downloaded from the release page and imported into Unity before use.
 
-## Changes
 
+## Diferences with the original project
+
+- add [https://github.com/mattatz/unity-volume-rendering/](https://github.com/mattatz/unity-volume-rendering/) to the project, which is a Unity implementation of volume rendering using raymarching, and the volume reder imports.
 - Added support for Oculus Quest 2
-- Changed the shader to use the new XRSystem
-- Create import to Nerf png sequence files
+- Changed the shader to VolumeColorRenderingShader
+- Create import from Nerf png sequence files
+
   
 
-
 # Shaders
+
+## VolumeShad2
+
+Original in: https://github.com/kwea123/nerf_Unity/blob/master/Assets/Shaders/volumeShad2.shader
+
+
+This is the old shader of the original project. It uses a number of custom properties to control its behavior, such as the volume texture to be rendered, the number of iterations used in the rendering process, and various options for how the volume should be rendered (such as whether to use RGB values to control alpha, or whether to use a dissolve effect). It also defines a number of ranges to control the visible region of the volume. The shader contains a sample function that clips the volume to the specified ranges and applies the selected rendering options before returning the resulting color.
+
+- _Volume is a 3D texture that contains the volume data to be rendered.
+- _Iteration is an integer value that specifies the number of iterations to use in the - rendering process.
+- _AlphaCutoff is a value in the range 0 to 1 that specifies the threshold below which - alpha values will be considered transparent.
+- _cutoff is a toggle (0 or 1) that enables or disables the use of the alpha cutoff value.
+- _alphaTransition is a value in the range 0 to 1 that specifies how smoothly the alpha - values should transition from opaque to transparent.
+- _rgbAlpha is a toggle (0 or 1) that enables or disables the use of RGB values to control - the alpha channel.
+- _MinX, _MaxX, _MinY, _MaxY, _MinZ, and _MaxZ are values in the range 0 to 1 that specify - the minimum and maximum values for the X, Y, and Z axes, respectively. These values are - used to clip the volume.
+- _Dissolve is a toggle (0 or 1) that enables or disables the use of a dissolve effect.
+- _Normalized is a toggle (0 or 1) that enables or disables normalization of the volume - data.
 
 ## VolumeColorRenderingShader
 
@@ -40,9 +59,7 @@ The main properties of this shader are:
 The shader also includes a number of helper functions for performing common tasks related to volume rendering, such as finding intersections between rays and bounding boxes, and computing the 
 
 
-
-
-## Project Nerf_Unity origin and references
+## Project Nerf_Unity original README
 
 ### :gem: [**Project page**](https://kwea123.github.io/nerf_pl/) (live demo!)
 
