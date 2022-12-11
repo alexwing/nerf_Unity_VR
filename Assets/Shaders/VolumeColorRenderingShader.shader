@@ -31,7 +31,7 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
 {
     Properties
     {
-        _Iteration("Iterations", Range(1, 2000)) = 10
+        _Iteration("Iterations", Range(1, 4000)) = 10
         _DataTex ("Data Texture (Generated)", 3D) = "" {}
        
         [Header(Ranges level)]

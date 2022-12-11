@@ -5,16 +5,22 @@
 
 ## Diferences with the original project
 
-- add [https://github.com/mattatz/unity-volume-rendering/](https://github.com/mattatz/unity-volume-rendering/) to the project, which is a Unity implementation of volume rendering using raymarching, and the volume reder imports.
+- added [https://github.com/mattatz/unity-volume-rendering/](https://github.com/mattatz/unity-volume-rendering/) to the project, which is a Unity implementation of volume rendering using raymarching, and the volume reder imports.
 - Added support for Oculus Quest 2
-- Changed the shader to VolumeColorRenderingShader
+- Changed to the new shader to VolumeColorRenderingShader
 - Create import from Nerf png sequence files
 
   
+## requirements
+
+- add folder Vol to Assets, in this folder is imported the volume data textures
+- add oculus integration to the project
+- 
 
 # Shaders
 
 ## VolumeShad2
+![image](./resources/capture01.jpg)
 
 Original in: https://github.com/kwea123/nerf_Unity/blob/master/Assets/Shaders/volumeShad2.shader
 
@@ -32,6 +38,8 @@ This is the old shader of the original project. It uses a number of custom prope
 - _Normalized is a toggle (0 or 1) that enables or disables normalization of the volume - data.
 
 ## VolumeColorRenderingShader
+
+![image](./resources/capture02.jpg)
 
 
 @references:
