@@ -1,6 +1,6 @@
 # Nerf Unity for Oculus Quest 2
 
- Nerf Unity for Oculus Quest 2 is a fork of the project  [kwea123/nerf_Unity](kwea123/nerf_Unity), which is a Unity implementation of nerf_pl, a neural rendering technique for creating photorealistic images. The fork adds support for the Oculus Quest 2 virtual reality headset and includes a new shader and tools for importing 3D volume data as png sequences. The project includes several different scenes that demonstrate different ways to use the neural rendering techniques, including rendering 3D mesh models and volumes. The project is built on Unity 2019.3.9f1 and requires assets to be downloaded from the release page and imported into Unity before use.
+ Nerf Unity for Oculus Quest 2 is a fork of the project  [kwea123/nerf_Unity](kwea123/nerf_Unity), which is a Unity implementation of nerf_pl, a neural rendering technique for creating photorealistic images. The fork adds support for the Oculus Quest 2 virtual reality headset and includes a new shader and tools for importing 3D volume data as png sequences. The project includes several different scenes that demonstrate different ways to use the neural rendering techniques, including rendering 3D mesh models and volumes. The project is built on Unity 2021.2.5f1 and requires assets to be downloaded from the release page and imported into Unity before use.
 
 
 ## Diferences with the original project
@@ -11,15 +11,16 @@
 - Create import from Nerf png sequence files
 
   
-## requirements
+## Requirements
 
+- Unity 2021.2.5f1
 - add folder Vol to Assets, in this folder is imported the volume data textures
-- add oculus integration to the project
-- 
+- add oculus integration to the project (https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022)
+
 
 # Shaders
 
-## VolumeShad2
+## VolumeShad2 (old shader)
 ![image](./resources/capture01.jpg)
 
 Original in: https://github.com/kwea123/nerf_Unity/blob/master/Assets/Shaders/volumeShad2.shader
@@ -37,7 +38,7 @@ This is the old shader of the original project. It uses a number of custom prope
 - _Dissolve is a toggle (0 or 1) that enables or disables the use of a dissolve effect.
 - _Normalized is a toggle (0 or 1) that enables or disables normalization of the volume - data.
 
-## VolumeColorRenderingShader
+## VolumeColorRenderingShader (new shader)
 
 ![image](./resources/capture02.jpg)
 
@@ -67,7 +68,26 @@ The main properties of this shader are:
 The shader also includes a number of helper functions for performing common tasks related to volume rendering, such as finding intersections between rays and bounding boxes, and computing the 
 
 
-## Project Nerf_Unity original README
+## Import from instant-Nerf png sequence files
+
+- Save the volume data as png sequence files in instant-nerf https://github.com/NVlabs/instant-ngp, you can change the resolution of image sequence in res slider.
+
+![image](./resources/capture03.jpg)
+
+- The images are saved in the folder "rgba_slices" in the folder of instant-nerf project
+
+![image](./resources/capture04.jpg)
+
+- Import the png sequence files into the project
+
+- The volume texture is created in the folder Vol with the name "Assets/Vol/VolumeRendering3D" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".asset"
+
+![image](./resources/capture05.jpg)
+
+- Select onVolumeShaderNew object, the material is changed to data texture to imported texture.
+
+
+# Project Nerf_Unity original README
 
 ### :gem: [**Project page**](https://kwea123.github.io/nerf_pl/) (live demo!)
 
