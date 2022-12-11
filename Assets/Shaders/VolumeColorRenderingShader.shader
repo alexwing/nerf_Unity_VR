@@ -11,12 +11,18 @@ This shader is a custom shader for rendering 3D volumes. It uses the raymarching
 
 The main properties of this shader are:
 
-    _Iteration: This controls the number of iterations that the raymarching algorithm will use to render the volume. More iterations will produce a higher-quality rendering, but will also be slower.
-    _DataTex: This is the 3D data texture that represents the volume that will be rendered.
-    _MinVal and _MaxVal: These properties control the minimum and maximum values that will be used to map the data in the 3D texture to colors in the final rendering.
-    _alphaTransition: This property controls the transition between transparent and opaque regions of the volume.
-    _alphaFactor: This property controls the overall transparency of the volume.
-    _lighting: This property toggles the use of lighting in the rendering.
+- _Iteration: This controls the number of iterations that the raymarching algorithm will use to render the volume. More iterations will produce a higher-quality rendering, but will also be slower.
+- _DataTex: This is the 3D data texture that represents the volume that will be rendered.
+- _MinVal and _MaxVal: These properties control the minimum and maximum values that will be used to map the data in the 3D texture to colors in the final rendering.
+- _alphaTransition: This property controls the transition between transparent and opaque regions of the volume.
+- _alphaFactor: This property controls the overall transparency of the volume.
+- _deptFactor: This property controls the depth of the volume.
+- _lightFactor: This property controls the intensity of the lighting applied to the volume.
+- _lighting: This property toggles the use of lighting in the rendering.
+- _Noise: This property toggles the use of noise in the rendering.
+- _NoiseTex: This is the 2D data texture that represents the noise that will be used in the rendering.
+- _noiseFactor: This property controls the intensity of the noise.   
+- _MinX, _MaxX, _MinY, _MaxY, _MinZ, _MaxZ: These properties control the size of the volume. 
 
 The shader also includes a number of helper functions for performing common tasks related to volume rendering, such as finding intersections between rays and bounding boxes, and computing the direction of view rays in both perspective and orthographic projections.
 */
@@ -28,18 +34,26 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
         _Iteration("Iterations", Range(1, 2000)) = 10
         _DataTex ("Data Texture (Generated)", 3D) = "" {}
        
-        [Header(Ranges)]
+        [Header(Ranges level)]
        
         _MinVal("Min val", Range(0.0, 1.0)) = 0.0
         _MaxVal("Max val", Range(0.0, 1.0)) = 1.0
+
+        [Header(Ranges size)]
+		_MinX("MinX", Range(0, 1)) = 0.0
+		_MaxX("MaxX", Range(0, 1)) = 1.0
+		_MinY("MinY", Range(0, 1)) = 0.0
+		_MaxY("MaxY", Range(0, 1)) = 1.0
+		_MinZ("MinZ", Range(0, 1)) = 0.0
+		_MaxZ("MaxZ", Range(0, 1)) = 1.0  
 
         [Header(Properties)]
 
         _alphaTransition("Alpha Transition", Range(0, 1)) = 0.5
         _alphaFactor("Alpha Factor", Range(0, 10)) = 1
-        _lightFactor("Light Factor", Range(0.0, 10.0)) = 1
         _deptFactor("Depth Factor", Range(0.0, 1.0)) = 0.15
 		[MaterialToggle] _lighting("Lighting", Float) = 0     
+        _lightFactor("Light Factor", Range(0.0, 10.0)) = 1
 
         [Header(Noise)]
         [MaterialToggle] _Noise("Activate Noise", Float) = 0
@@ -88,13 +102,15 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
             sampler3D _DataTex;
             sampler2D _NoiseTex;
 
-            float _MinVal;
-            float _MaxVal;
+            float _MinVal, _MaxVal;
             float _alphaTransition;
             float _alphaFactor;
             float _lightFactor;
             float _deptFactor;
             float _noiseFactor;
+
+			uniform float _MinX, _MaxX, _MinY, _MaxY, _MinZ, _MaxZ;
+
 
             uniform int _lighting;
             uniform int _Iteration;
@@ -233,9 +249,9 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
 
 
             float4 sample(float3 pos) // clip the volume
-			{			
-				//if (pos.x < _MinVal || pos.x > _MaxVal || pos.y < _MinVal || pos.y > _MaxVal || pos.z < _MinVal || pos.z > _MaxVal)
-				//	return float4(0, 0, 0, 0);
+			{		
+                if (pos.x < _MinX || pos.x > _MaxX || pos.y < _MinY || pos.y > _MaxY || pos.z < _MinZ || pos.z > _MaxZ)
+                						return float4(0, 0, 0, 0);
 				return  tex3D(_DataTex, pos);
 			}
 
@@ -243,6 +259,7 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
             // spanish: renderizado de volumen directo
             frag_out frag_dvr(frag_in i)
             {
+
 
                 RayInfo ray = getRayFront2Back(i.vertexLocal);
                 RaymarchInfo raymarchInfo = initRaymarch(ray, _Iteration );
@@ -261,6 +278,8 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
                 {
                     const float t = iStep * raymarchInfo.numStepsRecip;
                     const float3 currPos = lerp(ray.startPos, ray.endPos, t);
+
+
 
                     color = sample(currPos);
                 
@@ -310,7 +329,9 @@ Shader "VolumeRendering/VolumeColorRenderingShader"
 
             frag_out frag(frag_in i)
             {
-                return frag_dvr(i);
+
+                return frag_dvr(i);                    
+
             }
 
             ENDCG

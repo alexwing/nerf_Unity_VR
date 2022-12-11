@@ -24,12 +24,18 @@ This shader is a custom shader for rendering 3D volumes. It uses the raymarching
 
 The main properties of this shader are:
 
-  - _Iteration: This controls the number of iterations that the raymarching algorithm will use to render the volume. More iterations will produce a higher-quality rendering, but will also be slower.
-  - _DataTex: This is the 3D data texture that represents the volume that will be rendered.
-  - _MinVal and _MaxVal: These properties control the minimum and maximum values that will be used to map the data in the 3D texture to colors in the final rendering.
-  - _alphaTransition: This property controls the transition between transparent and opaque regions of the volume.
-  - _alphaFactor: This property controls the overall transparency of the volume.
-  - _lighting: This property toggles the use of lighting in the rendering.
+- _Iteration: This controls the number of iterations that the raymarching algorithm will use to render the volume. More iterations will produce a higher-quality rendering, but will also be slower.
+- _DataTex: This is the 3D data texture that represents the volume that will be rendered.
+- _MinVal and _MaxVal: These properties control the minimum and maximum values that will be used to map the data in the 3D texture to colors in the final rendering.
+- _alphaTransition: This property controls the transition between transparent and opaque regions of the volume.
+- _alphaFactor: This property controls the overall transparency of the volume.
+- _deptFactor: This property controls the depth of the volume.
+- _lightFactor: This property controls the intensity of the lighting applied to the volume.
+- _lighting: This property toggles the use of lighting in the rendering.
+- _Noise: This property toggles the use of noise in the rendering.
+- _NoiseTex: This is the 2D data texture that represents the noise that will be used in the rendering.
+- _noiseFactor: This property controls the intensity of the noise.    
+- _MinX, _MaxX, _MinY, _MaxY, _MinZ, _MaxZ: These properties control the size of the volume. 
 
 The shader also includes a number of helper functions for performing common tasks related to volume rendering, such as finding intersections between rays and bounding boxes, and computing the 
 

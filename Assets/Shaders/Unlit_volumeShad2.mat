@@ -44,14 +44,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Volume:
-        m_Texture: {fileID: 11700000, guid: 8f9e12f39e0a01d43bce59f0ea4c52c6, type: 2}
+        m_Texture: {fileID: 11700000, guid: 74ca0407d125b2642b1e56d2c2cdc921, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - Vector1_C4EF7DB6: 30
     - Vector1_D32E39A6: 0.02
-    - _AlphaCutoff: 0.348
+    - _AlphaCutoff: 0
     - _Dissolve: 0
     - _Intensity: 0.077
     - _Iteration: 400
