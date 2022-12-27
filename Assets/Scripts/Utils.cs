@@ -373,6 +373,36 @@ public class Utils
         return false;
     }
 
+        /// <summary>
+    /// returns if the gameobject is left to other
+    /// </summary>
+    /// <param name="obj1">obj1</param>
+    /// <param name="obj2">obj2</param>
+    /// <returns>is object is on left as her pivot</returns>
+    public static bool IsLeftAtObject(Transform obj1, Transform obj2)
+    {
+        if (Vector3.Dot(Vector3.right, obj1.transform.InverseTransformPoint(obj2.transform.position)) < 0)
+            return true;
+        else
+            return false;
+        
+    }
+
+
+    /// <summary>
+    /// returns if the gameobject is top to other
+    /// </summary>
+    /// <param name="obj1">obj1</param>
+    /// <param name="obj2">obj2</param>
+    /// <returns>is object is on top as her pivot</returns>
+    public static bool IsTopAtObject(Transform obj1, Transform obj2)
+    {
+        if (Vector3.Dot(Vector3.up, obj1.transform.InverseTransformPoint(obj2.transform.position)) < 0)
+            return true;
+        else
+            return false;
+
+    }
 
     /// <summary>
     /// returns if the gameobject is front to other

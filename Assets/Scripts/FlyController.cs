@@ -11,9 +11,6 @@ public class FlyController : MonoBehaviour
     [SerializeField] private Transform _MoveGestoureAnchor;
 
 
-    [Header("Score")]
-    [SerializeField] private TMPro.TextMeshPro _MoveScoreText;
-
     [Header("Player")]
     public float rotationSpeed = 5f;       // Rotation speed.
     public static bool HandStateRight = false;
@@ -58,12 +55,12 @@ public class FlyController : MonoBehaviour
 
         if (!Utils.IsFrontAtObject(_RotationGestoureAnchor, _leftHand))
         {
-            _MoveScoreText.text = "Rotation left: " + distance.ToString("F2");
+            Debug.Log("Rotation left: " + distance.ToString("F2"));
             rotateInfluence = -distance * Time.deltaTime * rotationSpeed;
         }
         else
         {
-             _MoveScoreText.text = "Rotation right: " + distance.ToString("F2");
+             Debug.Log("Rotation right: " + distance.ToString("F2"));
             rotateInfluence = +distance * Time.deltaTime * rotationSpeed;
         }
 
@@ -79,12 +76,12 @@ public class FlyController : MonoBehaviour
 
         if (Utils.IsFrontAtObject(_MoveGestoureAnchor, _rightHand))
         {
-            _MoveScoreText.text = "Move fordward: " + distance.ToString("F2");
+            Debug.Log("Move fordward: " + distance.ToString("F2"));
             moveInfluence = distance;
         }
         else
         {
-            _MoveScoreText.text = "Move backward: " + distance.ToString("F2");
+            Debug.Log("Move backward: " + distance.ToString("F2"));
             moveInfluence = -distance;
         }
 

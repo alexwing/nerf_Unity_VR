@@ -3,7 +3,7 @@
 [![Nerf Unity for Oculus Quest 2](https://img.youtube.com/vi/H9JSirdEHow/0.jpg)](https://www.youtube.com/watch?v=H9JSirdEHow)
 
 
- Nerf Unity for Oculus Quest 2 is a fork of the project  [kwea123/nerf_Unity](kwea123/nerf_Unity), which is a Unity implementation of nerf_pl, a neural rendering technique for creating photorealistic images. The fork adds support for the Oculus Quest 2 virtual reality headset and includes a new shader and tools for importing 3D volume data as png sequences. The project includes several different scenes that demonstrate different ways to use the neural rendering techniques, including rendering 3D mesh models and volumes. The project is built on Unity 2021.2.5f1 and requires assets to be downloaded from the release page and imported into Unity before use.
+ Nerf Unity for Oculus Quest 2 is a fork of the project  [kwea123/nerf_Unity](kwea123/nerf_Unity), which is a Unity implementation of nerf_pl, a neural rendering technique for creating photorealistic images. The fork adds support for the Oculus Quest 2 virtual reality headset and includes a new shader and tools for importing 3D volume data as png sequences. The project includes several different scenes that demonstrate different ways to use the neural rendering techniques, including rendering 3D mesh models and volumes. The project is built on Unity 2022.2.1f1 and requires assets to be downloaded from the release page and imported into Unity before use.
 
 
 ## Diferences with the original project
@@ -16,7 +16,7 @@
   
 ## Requirements
 
-- Unity 2021.2.5f1
+- Unity 2022.2.1f1
 - add folder Vol to Assets, in this folder is imported the volume data textures
 - add oculus integration to the project (https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022)
 
